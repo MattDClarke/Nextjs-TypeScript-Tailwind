@@ -26,6 +26,7 @@ const WithStaticProps = ({ items }: Props) => (
   </Layout>
 )
 
+// pre-build page with data. Data available at build time - runs on the server
 export const getStaticProps: GetStaticProps = async () => {
   // Example for including static props in a Next.js function component page.
   // Don't forget to include the respective types for any props passed into
