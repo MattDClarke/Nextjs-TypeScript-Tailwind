@@ -17,15 +17,16 @@ npm run type-check ||
     false;
 )
 
+# Can add this later
 # If everything passes... Now we can commit
-echo 'Alright... Code looks good to me... Trying to build now. 🤔🤔🤔🤔'
+# echo 'Alright... Code looks good to me... Trying to build now. 🤔🤔🤔🤔'
 
-npm run build ||
-(
-    echo 'Next build failed: View the errors above to see why.
-    '
-    false;
-)
+# npm run build ||
+# (
+#     echo 'Next build failed: View the errors above to see why.
+#     '
+#     false;
+# )
 
 # If everything passes... Now we can commit
 echo '✅ All pre-commit checks passed.'
