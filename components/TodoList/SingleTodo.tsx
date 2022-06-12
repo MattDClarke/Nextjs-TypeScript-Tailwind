@@ -4,7 +4,7 @@ import { MdDone } from 'react-icons/md'
 import { useToggleState } from '../../hooks/useToggleState'
 import { Todo } from '../../interfaces'
 
-interface Props {
+type Props = {
   index: number
   todos: Todo[]
   todo: Todo
@@ -38,11 +38,21 @@ function SingleTodo({ index, todos, todo, setTodos }: Props) {
   }
 
   return (
-    <form onSubmit={(e) => handleSubmit(e, todo.id)}>
+    <form
+      onSubmit={(e) => handleSubmit(e, todo.id)}
+      className="max-w-md flex rounded shadow-sm px-2 py-2"
+    >
       {isEditing ? (
-        <input value={editTodo} onChange={(e) => setEditTodo(e.target.value)} />
+        <input
+          value={editTodo}
+          onChange={(e) => setEditTodo(e.target.value)}
+          className="flex-grow"
+        />
       ) : (
-        <span style={{ textDecoration: todo.isDone ? 'line-through' : 'none' }}>
+        <span
+          style={{ textDecoration: todo.isDone ? 'line-through' : 'none' }}
+          className="flex-grow"
+        >
           {todo.todo}
         </span>
       )}
@@ -56,6 +66,7 @@ function SingleTodo({ index, todos, todo, setTodos }: Props) {
           toggleIsEditing()
         }}
         disabled={todo.isDone}
+        className="hover:text-primary focus:text-primary disabled:opacity-10 text-2xl"
       >
         {!isEditing ? <AiFillEdit /> : <AiOutlineCheckCircle />}
       </button>
@@ -63,6 +74,7 @@ function SingleTodo({ index, todos, todo, setTodos }: Props) {
         type="button"
         aria-label="Delete todo"
         onClick={() => handleDelete(todo.id)}
+        className="hover:text-red-700 focus:text-red-700 text-2xl"
       >
         <AiFillDelete />
       </button>
@@ -71,6 +83,7 @@ function SingleTodo({ index, todos, todo, setTodos }: Props) {
           type="button"
           aria-label="Mark todo as complete"
           onClick={() => handleDone(todo.id)}
+          className="hover:text-green-600 focus:text-green-600 text-2xl"
         >
           <MdDone />
         </button>

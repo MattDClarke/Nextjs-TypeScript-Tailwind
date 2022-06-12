@@ -3,6 +3,7 @@ import Layout from '../components/Layout'
 import { TodoList } from '../components/TodoList/TodoList'
 import { InputForm } from '../components/TodoList/InputForm'
 import { Todo } from '../interfaces'
+import { H1 } from '../components/Tailwind/TailwindComponents'
 
 export default function TodoListPage() {
   const [todo, setTodo] = useState('')
@@ -18,7 +19,7 @@ export default function TodoListPage() {
   }
   return (
     <Layout title="TODO List | TODO list app">
-      <h1>TODO List</h1>
+      <H1>TODO List</H1>
       <InputForm todo={todo} setTodo={setTodo} handleAdd={handleAdd} />
       <TodoList todos={todos} setTodos={setTodos} />
     </Layout>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Todo } from '../../interfaces'
 import { SingleTodo } from './SingleTodo'
 
-interface Props {
+type Props = {
   todos: Todo[]
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>
 }

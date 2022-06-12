@@ -5,6 +5,7 @@ import { User } from '../../interfaces'
 import { sampleUserData } from '../../utils/sample-data'
 import Layout from '../../components/Layout'
 import List from '../../components/List'
+import { H1 } from '../../components/Tailwind/TailwindComponents'
 
 type Props = {
   items: User[]
@@ -12,7 +13,7 @@ type Props = {
 
 const WithStaticProps = ({ items }: Props) => (
   <Layout title="Users List | Next.js + TypeScript Example">
-    <h1>Users List</h1>
+    <H1>Users List</H1>
     <p>
       Example fetching data from inside <code>getStaticProps()</code>.
     </p>

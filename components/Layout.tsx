@@ -8,14 +8,14 @@ type Props = {
 }
 
 const Layout = ({ children, title = 'This is the default title' }: Props) => (
-  <div>
+  <div className="flex flex-col min-h-screen max-w-5xl mx-auto">
     <Head>
       <title>{title}</title>
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
     <header>
-      <nav>
+      <nav className="py-4 px-4 text-center">
         <Link href="/">
           <a>Home</a>
         </Link>{' '}
@@ -34,10 +34,11 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => (
         | <a href="/api/users">Users API</a>
       </nav>
     </header>
-    {children}
-    <footer>
-      <hr />
-      <span>I'm here to stay (Footer)</span>
+    <main className="py-4 px-4 flex-grow bg-white rounded-xl shadow-lg ">
+      {children}
+    </main>
+    <footer className="py-4 text-center">
+      <span>Footer</span>
     </footer>
   </div>
 )
