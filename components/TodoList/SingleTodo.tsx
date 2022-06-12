@@ -20,7 +20,7 @@ function SingleTodo({
   completeTodo,
 }: Props) {
   const [isEditing, toggleIsEditing] = useToggleState(false)
-  const [editedTodo, setEditedTodo] = useState('')
+  const [editedTodo, setEditedTodo] = useState<string>(todo.todo)
   const inputRef = useRef<HTMLInputElement>(null)
   console.log(index)
 
@@ -37,7 +37,7 @@ function SingleTodo({
   return (
     <form
       onSubmit={(e) => handleSubmit(e, todo.id)}
-      className="max-w-md flex rounded shadow-sm px-2 py-2"
+      className="max-w-md flex rounded shadow-sm px-2 py-2 ease-in-out duration-300 hover:scale-105"
     >
       {isEditing ? (
         <input
@@ -64,7 +64,7 @@ function SingleTodo({
           toggleIsEditing()
         }}
         disabled={todo.isDone}
-        className="hover:text-primary focus:text-primary disabled:opacity-10 text-2xl"
+        className="hover:text-primary hover: focus:text-primary disabled:opacity-10 text-2xl"
       >
         {!isEditing ? <AiFillEdit /> : <AiOutlineCheckCircle />}
       </button>

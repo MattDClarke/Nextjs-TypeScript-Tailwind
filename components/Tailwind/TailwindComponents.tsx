@@ -14,11 +14,11 @@ function SubmitButton({ children }: Props) {
 }
 
 function H1({ children }: Props) {
-  return (
-    <button type="submit" className="text-3xl font-bold underline pb-6">
-      {children}
-    </button>
-  )
+  return <h1 className="text-3xl font-bold underline py-6">{children}</h1>
 }
 
-export { SubmitButton, H1 }
+function H2({ children }: Props) {
+  return <h2 className="text-2xl font-bold py-4">{children}</h2>
+}
+
+export { SubmitButton, H1, H2 }
