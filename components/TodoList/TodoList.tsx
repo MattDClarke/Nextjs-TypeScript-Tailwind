@@ -4,19 +4,22 @@ import { SingleTodo } from './SingleTodo'
 
 type Props = {
   todos: Todo[]
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>
+  editTodo: (id: number, text: string) => void
+  removeTodo: (id: number) => void
+  completeTodo: (id: number) => void
 }
 
-function TodoList({ todos, setTodos }: Props) {
+function TodoList({ todos, editTodo, removeTodo, completeTodo }: Props) {
   return (
     <>
       {todos.map((todo, index) => (
         <SingleTodo
           key={todo.id}
           index={index}
-          todos={todos}
           todo={todo}
-          setTodos={setTodos}
+          editTodo={editTodo}
+          removeTodo={removeTodo}
+          completeTodo={completeTodo}
         />
       ))}
     </>

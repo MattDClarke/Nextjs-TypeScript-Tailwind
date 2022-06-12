@@ -9,7 +9,7 @@ type Props = {
 
 function InputForm({ todo, setTodo, handleAdd }: Props) {
   return (
-    <form onSubmit={handleAdd} className="flex h-10 mb-4 max-w-md">
+    <form onSubmit={handleAdd} className="flex h-10 mb-4 max-w-sm">
       <input
         type="input"
         value={todo}

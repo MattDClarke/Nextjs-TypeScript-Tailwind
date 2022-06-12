@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { AiFillEdit, AiFillDelete, AiOutlineCheckCircle } from 'react-icons/ai'
 import { MdDone } from 'react-icons/md'
 import { useToggleState } from '../../hooks/useToggleState'
@@ -6,35 +6,32 @@ import { Todo } from '../../interfaces'
 
 type Props = {
   index: number
-  todos: Todo[]
+  editTodo: (id: number, text: string) => void
+  removeTodo: (id: number) => void
+  completeTodo: (id: number) => void
   todo: Todo
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>
 }
 
-function SingleTodo({ index, todos, todo, setTodos }: Props) {
+function SingleTodo({
+  index,
+  todo,
+  editTodo,
+  removeTodo,
+  completeTodo,
+}: Props) {
   const [isEditing, toggleIsEditing] = useToggleState(false)
-  const [editTodo, setEditTodo] = useState(todo.todo)
+  const [editedTodo, setEditedTodo] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
   console.log(index)
-  const handleEdit = (id: number) => {
-    setTodos(
-      todos.map((tdo) => (tdo.id === id ? { ...tdo, todo: editTodo } : tdo))
-    )
-  }
+
+  useEffect(() => {
+    inputRef.current?.focus()
+  }, [isEditing])
+
   const handleSubmit = (e: React.FormEvent, id: number) => {
     e.preventDefault()
-    handleEdit(id)
+    editTodo(id, editedTodo)
     toggleIsEditing()
-  }
-  const handleDelete = (id: number) => {
-    setTodos(todos.filter((tdo) => tdo.id !== id))
-  }
-
-  const handleDone = (id: number) => {
-    setTodos(
-      todos.map((tdo) =>
-        tdo.id === id ? { ...tdo, isDone: !tdo.isDone } : tdo
-      )
-    )
   }
 
   return (
@@ -44,14 +41,15 @@ function SingleTodo({ index, todos, todo, setTodos }: Props) {
     >
       {isEditing ? (
         <input
-          value={editTodo}
-          onChange={(e) => setEditTodo(e.target.value)}
-          className="flex-grow"
+          value={editedTodo}
+          onChange={(e) => setEditedTodo(e.target.value)}
+          className="flex-grow px-2 py-1"
+          ref={inputRef}
         />
       ) : (
         <span
           style={{ textDecoration: todo.isDone ? 'line-through' : 'none' }}
-          className="flex-grow"
+          className="flex-grow px-2 py-1"
         >
           {todo.todo}
         </span>
@@ -62,7 +60,7 @@ function SingleTodo({ index, todos, todo, setTodos }: Props) {
         onClick={() => {
           if (todo.isDone) return
           // save change if edit clicked
-          if (isEditing) handleEdit(todo.id)
+          if (isEditing) editTodo(todo.id, editedTodo)
           toggleIsEditing()
         }}
         disabled={todo.isDone}
@@ -73,7 +71,7 @@ function SingleTodo({ index, todos, todo, setTodos }: Props) {
       <button
         type="button"
         aria-label="Delete todo"
-        onClick={() => handleDelete(todo.id)}
+        onClick={() => removeTodo(todo.id)}
         className="hover:text-red-700 focus:text-red-700 text-2xl"
       >
         <AiFillDelete />
@@ -82,7 +80,7 @@ function SingleTodo({ index, todos, todo, setTodos }: Props) {
         <button
           type="button"
           aria-label="Mark todo as complete"
-          onClick={() => handleDone(todo.id)}
+          onClick={() => completeTodo(todo.id)}
           className="hover:text-green-600 focus:text-green-600 text-2xl"
         >
           <MdDone />
