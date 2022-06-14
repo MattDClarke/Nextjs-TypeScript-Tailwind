@@ -5,13 +5,13 @@ import { useToggleState } from '../../hooks/useToggleState'
 import { Todo } from '../../interfaces'
 
 type Props = {
-  editTodo: (id: number, text: string) => void
+  handleEdit: (id: number, text: string) => void
   handleComplete: (id: number) => void
   handleDelete: (id: number) => void
   todo: Todo
 }
 
-function SingleTodo({ todo, editTodo, handleComplete, handleDelete }: Props) {
+function SingleTodo({ todo, handleEdit, handleComplete, handleDelete }: Props) {
   const [isEditing, toggleIsEditing] = useToggleState(false)
   const [editedTodo, setEditedTodo] = useState<string>(todo.todo)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -22,7 +22,7 @@ function SingleTodo({ todo, editTodo, handleComplete, handleDelete }: Props) {
 
   const handleSubmit = (e: React.FormEvent, id: number) => {
     e.preventDefault()
-    editTodo(id, editedTodo)
+    handleEdit(id, editedTodo)
     toggleIsEditing()
   }
 
@@ -52,7 +52,7 @@ function SingleTodo({ todo, editTodo, handleComplete, handleDelete }: Props) {
         onClick={() => {
           if (todo.isDone) return
           // save change if edit clicked
-          if (isEditing) editTodo(todo.id, editedTodo)
+          if (isEditing) handleEdit(todo.id, editedTodo)
           toggleIsEditing()
         }}
         disabled={todo.isDone}

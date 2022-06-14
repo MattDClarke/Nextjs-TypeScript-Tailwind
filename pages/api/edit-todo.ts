@@ -6,20 +6,21 @@ import catchErrors from '../../utils/ErrorHandler'
 interface ExtendedNextApiRequest extends NextApiRequest {
   body: {
     id: number
+    newTodo: string
   }
 }
 
 export default catchErrors(
   async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
     if (req.method === 'PATCH') {
-      const { id } = req.body
+      const { id, newTodo } = req.body
       await dbConnect()
       const todo = await TodoModel.findOne({ id })
-      todo.isDone = !todo.isDone
+      todo.todo = newTodo
       await todo.save()
       return res
         .status(200)
-        .json({ message: 'Marked todo as completed successfully' })
+        .json({ message: 'Todo was edited completed successfully' })
     }
     res.status(405).json({
       message: 'Method not allowed',

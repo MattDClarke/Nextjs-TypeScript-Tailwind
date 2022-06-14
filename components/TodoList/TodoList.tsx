@@ -5,12 +5,12 @@ import { SingleTodo } from './SingleTodo'
 
 type Props = {
   todos: Todo[]
-  editTodo: (id: number, text: string) => void
+  handleEdit: (id: number, text: string) => void
   handleComplete: (id: number) => void
   handleDelete: (id: number) => void
 }
 
-function TodoList({ todos, editTodo, handleComplete, handleDelete }: Props) {
+function TodoList({ todos, handleEdit, handleComplete, handleDelete }: Props) {
   return (
     <div className="flex flex-wrap flex-col md:flex-row">
       <div className="flex-1 bg-yellow-100 px-3 py-3 rounded">
@@ -21,7 +21,7 @@ function TodoList({ todos, editTodo, handleComplete, handleDelete }: Props) {
             <SingleTodo
               key={todo.id}
               todo={todo}
-              editTodo={editTodo}
+              handleEdit={handleEdit}
               handleDelete={handleDelete}
               handleComplete={handleComplete}
             />
@@ -35,7 +35,7 @@ function TodoList({ todos, editTodo, handleComplete, handleDelete }: Props) {
             <SingleTodo
               key={todo.id}
               todo={todo}
-              editTodo={editTodo}
+              handleEdit={handleEdit}
               handleComplete={handleComplete}
               handleDelete={handleDelete}
             />

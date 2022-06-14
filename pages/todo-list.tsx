@@ -3,16 +3,15 @@ import Layout from '../components/Layout'
 import { TodoList } from '../components/TodoList/TodoList'
 import { InputForm } from '../components/TodoList/InputForm'
 import { H1 } from '../components/Tailwind/TailwindComponents'
-import { useTodos } from '../hooks/useTodos'
 import { useTodosGet } from '../hooks/useTodosGet'
 import { addTodoMutation } from '../mutations/addTodoMutation'
 import { deleteTodoMutation } from '../mutations/deleteTodoMutation'
 import { completeTodoMutation } from '../mutations/completeTodoMutation'
+import { editTodoMutation } from '../mutations/editTodoMutation'
 
 export default function TodoListPage() {
   const [todo, setTodo] = useState('')
   const { data, error, mutate: mutateTodos } = useTodosGet()
-  const { editTodo } = useTodos([])
 
   const handleAdd = useCallback(
     async (e: React.FormEvent, newTodo: string) => {
@@ -49,6 +48,19 @@ export default function TodoListPage() {
     [data, mutateTodos]
   )
 
+  const handleEdit = useCallback(
+    async (editId: number, newTodo: string) => {
+      await editTodoMutation(editId, newTodo)
+      mutateTodos(
+        data.map((item) =>
+          item.id === editId ? { ...item, todo: newTodo } : item
+        ),
+        true
+      )
+    },
+    [data, mutateTodos]
+  )
+
   return (
     <Layout title="TODO List | TODO list app">
       <H1>TODO List</H1>
@@ -59,7 +71,7 @@ export default function TodoListPage() {
           <InputForm todo={todo} setTodo={setTodo} handleAdd={handleAdd} />
           <TodoList
             todos={data}
-            editTodo={editTodo}
+            handleEdit={handleEdit}
             handleDelete={handleDelete}
             handleComplete={handleComplete}
           />
