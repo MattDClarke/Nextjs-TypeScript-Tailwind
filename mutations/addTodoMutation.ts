@@ -2,7 +2,6 @@ import { mutate } from 'swr'
 import { Todo } from '../interfaces'
 
 async function addTodoMutation(todo: Todo) {
-  console.log(todo)
   const options = { optimisticData: todo, rollbackOnError: true }
   await mutate(
     '/api/add-todo',

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import Layout from '../components/Layout'
 import { TodoList } from '../components/TodoList/TodoList'
 import { InputForm } from '../components/TodoList/InputForm'
@@ -6,25 +6,48 @@ import { H1 } from '../components/Tailwind/TailwindComponents'
 import { useTodos } from '../hooks/useTodos'
 import { useTodosGet } from '../hooks/useTodosGet'
 import { addTodoMutation } from '../mutations/addTodoMutation'
+import { deleteTodoMutation } from '../mutations/deleteTodoMutation'
+import { completeTodoMutation } from '../mutations/completeTodoMutation'
 
 export default function TodoListPage() {
   const [todo, setTodo] = useState('')
   const { data, error, mutate: mutateTodos } = useTodosGet()
-  const { todos, editTodo, removeTodo, completeTodo } = useTodos([])
-  // const [completedTodos, setCompletedTodos] = useState<Todo[]>([])
+  const { editTodo } = useTodos([])
 
-  console.log({ data }, todos)
-
-  const handleAdd = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (todo) {
-      const newTodo = { id: Date.now(), todo, isDone: false }
-      await addTodoMutation(newTodo)
-      mutateTodos([...data, newTodo], true)
+  const handleAdd = useCallback(
+    async (e: React.FormEvent, newTodo: string) => {
+      e.preventDefault()
+      if (newTodo === '') return
+      const newTodoObj = { id: Date.now(), todo: newTodo, isDone: false }
+      await addTodoMutation(newTodoObj)
+      mutateTodos([...data, newTodoObj], true)
       setTodo('')
-    }
-  }
+    },
+    [data, mutateTodos]
+  )
+  const handleDelete = useCallback(
+    async (delId: number) => {
+      await deleteTodoMutation(delId)
+      mutateTodos(
+        data.filter(({ id }) => id !== delId),
+        true
+      )
+    },
+    [data, mutateTodos]
+  )
+
+  const handleComplete = useCallback(
+    async (completeId: number) => {
+      await completeTodoMutation(completeId)
+      mutateTodos(
+        data.map((item) =>
+          item.id === completeId ? { ...item, isDone: !item.isDone } : item
+        ),
+        true
+      )
+    },
+    [data, mutateTodos]
+  )
 
   return (
     <Layout title="TODO List | TODO list app">
@@ -37,10 +60,8 @@ export default function TodoListPage() {
           <TodoList
             todos={data}
             editTodo={editTodo}
-            removeTodo={removeTodo}
-            completeTodo={completeTodo}
-            // completedTodos={completedTodos}
-            // setCompletedTodos={setCompletedTodos}
+            handleDelete={handleDelete}
+            handleComplete={handleComplete}
           />
         </>
       )}

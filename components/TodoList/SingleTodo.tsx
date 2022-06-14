@@ -5,24 +5,16 @@ import { useToggleState } from '../../hooks/useToggleState'
 import { Todo } from '../../interfaces'
 
 type Props = {
-  index: number
   editTodo: (id: number, text: string) => void
-  removeTodo: (id: number) => void
-  completeTodo: (id: number) => void
+  handleComplete: (id: number) => void
+  handleDelete: (id: number) => void
   todo: Todo
 }
 
-function SingleTodo({
-  index,
-  todo,
-  editTodo,
-  removeTodo,
-  completeTodo,
-}: Props) {
+function SingleTodo({ todo, editTodo, handleComplete, handleDelete }: Props) {
   const [isEditing, toggleIsEditing] = useToggleState(false)
   const [editedTodo, setEditedTodo] = useState<string>(todo.todo)
   const inputRef = useRef<HTMLInputElement>(null)
-  console.log(index)
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -71,7 +63,7 @@ function SingleTodo({
       <button
         type="button"
         aria-label="Delete todo"
-        onClick={() => removeTodo(todo.id)}
+        onClick={() => handleDelete(todo.id)}
         className="hover:text-red-700 focus:text-red-700 text-2xl"
       >
         <AiFillDelete />
@@ -80,7 +72,7 @@ function SingleTodo({
         <button
           type="button"
           aria-label="Mark todo as complete"
-          onClick={() => completeTodo(todo.id)}
+          onClick={() => handleComplete(todo.id)}
           className="hover:text-green-600 focus:text-green-600 text-2xl"
         >
           <MdDone />

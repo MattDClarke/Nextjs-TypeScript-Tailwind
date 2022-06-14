@@ -6,49 +6,38 @@ import { SingleTodo } from './SingleTodo'
 type Props = {
   todos: Todo[]
   editTodo: (id: number, text: string) => void
-  removeTodo: (id: number) => void
-  completeTodo: (id: number) => void
-  // completedTodos: Todo[]
-  // setCompletedTodos: React.Dispatch<React.SetStateAction<Todo[]>>
+  handleComplete: (id: number) => void
+  handleDelete: (id: number) => void
 }
 
-function TodoList({
-  todos,
-  editTodo,
-  removeTodo,
-  completeTodo,
-}: // completedTodos,
-// setCompletedTodos,
-Props) {
+function TodoList({ todos, editTodo, handleComplete, handleDelete }: Props) {
   return (
-    <div className="flex flex-wrap flex-col md:flex-row ">
-      <div className="flex-1 bg-yellow-100 px-1 rounded">
+    <div className="flex flex-wrap flex-col md:flex-row">
+      <div className="flex-1 bg-yellow-100 px-3 py-3 rounded">
         <H2>Active tasks</H2>
         {todos
           .filter((todo) => todo.isDone === false)
-          .map((todo, index) => (
+          .map((todo) => (
             <SingleTodo
               key={todo.id}
-              index={index}
               todo={todo}
               editTodo={editTodo}
-              removeTodo={removeTodo}
-              completeTodo={completeTodo}
+              handleDelete={handleDelete}
+              handleComplete={handleComplete}
             />
           ))}
       </div>
-      <div className="flex-1 bg-red-100 px-1 rounded">
+      <div className="flex-1 bg-red-100 px-3 py-3 rounded">
         <H2>Completed tasks</H2>
         {todos
           .filter((todo) => todo.isDone === true)
-          .map((todo, index) => (
+          .map((todo) => (
             <SingleTodo
               key={todo.id}
-              index={index}
               todo={todo}
               editTodo={editTodo}
-              removeTodo={removeTodo}
-              completeTodo={completeTodo}
+              handleComplete={handleComplete}
+              handleDelete={handleDelete}
             />
           ))}
       </div>

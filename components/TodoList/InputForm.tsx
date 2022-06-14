@@ -4,12 +4,15 @@ import { SubmitButton } from '../Tailwind/TailwindComponents'
 type Props = {
   todo: string
   setTodo: React.Dispatch<React.SetStateAction<string>>
-  handleAdd: (e: React.FormEvent) => void
+  handleAdd: (e: React.FormEvent, newTodo: string) => void
 }
 
 function InputForm({ todo, setTodo, handleAdd }: Props) {
   return (
-    <form onSubmit={handleAdd} className="flex h-10 mb-4 max-w-sm">
+    <form
+      onSubmit={(e) => handleAdd(e, todo)}
+      className="flex h-10 mb-4 max-w-sm"
+    >
       <input
         type="input"
         value={todo}
