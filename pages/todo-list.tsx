@@ -4,22 +4,24 @@ import { TodoList } from '../components/TodoList/TodoList'
 import { InputForm } from '../components/TodoList/InputForm'
 import { H1 } from '../components/Tailwind/TailwindComponents'
 import { useTodos } from '../hooks/useTodos'
-import { Todo } from '../interfaces'
 import { useTodosGet } from '../hooks/useTodosGet'
+import { addTodoMutation } from '../mutations/addTodoMutation'
 
 export default function TodoListPage() {
   const [todo, setTodo] = useState('')
-  const { data, error } = useTodosGet()
-  const { todos, addTodo, editTodo, removeTodo, completeTodo } = useTodos([])
-  const [completedTodos, setCompletedTodos] = useState<Todo[]>([])
+  const { data, error, mutate: mutateTodos } = useTodosGet()
+  const { todos, editTodo, removeTodo, completeTodo } = useTodos([])
+  // const [completedTodos, setCompletedTodos] = useState<Todo[]>([])
 
   console.log({ data }, todos)
 
-  const handleAdd = (e: React.FormEvent) => {
+  const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (todo) {
-      addTodo(todo)
+      const newTodo = { id: Date.now(), todo, isDone: false }
+      await addTodoMutation(newTodo)
+      mutateTodos([...data, newTodo], true)
       setTodo('')
     }
   }
@@ -37,8 +39,8 @@ export default function TodoListPage() {
             editTodo={editTodo}
             removeTodo={removeTodo}
             completeTodo={completeTodo}
-            completedTodos={completedTodos}
-            setCompletedTodos={setCompletedTodos}
+            // completedTodos={completedTodos}
+            // setCompletedTodos={setCompletedTodos}
           />
         </>
       )}

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { TodoModel } from '../../../models/Todo'
-import { dbConnect } from '../../../utils/dbConnect'
-import catchErrors from '../../../utils/ErrorHandler'
+import { TodoModel } from '../../models/Todo'
+import { dbConnect } from '../../utils/dbConnect'
+import catchErrors from '../../utils/ErrorHandler'
 
 export default catchErrors(
   async (req: NextApiRequest, res: NextApiResponse) => {

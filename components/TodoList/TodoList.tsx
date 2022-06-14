@@ -8,8 +8,8 @@ type Props = {
   editTodo: (id: number, text: string) => void
   removeTodo: (id: number) => void
   completeTodo: (id: number) => void
-  completedTodos: Todo[]
-  setCompletedTodos: React.Dispatch<React.SetStateAction<Todo[]>>
+  // completedTodos: Todo[]
+  // setCompletedTodos: React.Dispatch<React.SetStateAction<Todo[]>>
 }
 
 function TodoList({
@@ -17,9 +17,9 @@ function TodoList({
   editTodo,
   removeTodo,
   completeTodo,
-  completedTodos,
-  setCompletedTodos,
-}: Props) {
+}: // completedTodos,
+// setCompletedTodos,
+Props) {
   return (
     <div className="flex flex-wrap flex-col md:flex-row ">
       <div className="flex-1 bg-yellow-100 px-1 rounded">
